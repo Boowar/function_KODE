@@ -40,7 +40,10 @@ const input = {
   },
 }
 
-function arrayItems(obj) {
+/**
+ * Функция преобразовывает объект без сортировки
+ */
+function transformObject(obj) {
   let result = []
 
   for (let key in obj) {
@@ -60,6 +63,33 @@ function arrayItems(obj) {
   return result
 }
 
-const result = arrayItems(input)
+const result = transformObject(input)
 
 console.log('RESULT', result)
+
+/**
+ * Функция с сортировкой
+ */
+function transformObjectSort(obj) {
+  let result = []
+
+  for (let key in obj) {
+    for (let key2 in obj[key]) {
+      let middle = {}
+      middle.projectId = key
+      middle.sceneId = key2
+      if (obj[key][key2].value > 0) {
+        result.push(middle)
+        for (let key3 in obj[key][key2]) {
+          middle.value = obj[key][key2].value
+          middle.title = obj[key][key2].title
+        }
+      }
+    }
+  }
+  return result.sort((first, second) => second.value - first.value)
+}
+
+const resultSorted = transformObjectSort(input)
+
+console.log('SORTED RESULT', resultSorted)
